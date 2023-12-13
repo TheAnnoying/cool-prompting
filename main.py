@@ -2,7 +2,7 @@ from llama_cpp import Llama
 from flask import Flask, request
 
 app = Flask(__name__)
-llm = Llama(model_path="./models/llama-2-13b-chat.Q4_K_M.gguf", n_threads=4)
+llm = Llama(model_path="./models/stablelm-zephyr-3b.Q4_K_M.gguf", n_threads=4, n_gpu_layers=0)
 
 @app.after_request
 def cors_headers(response):
@@ -13,8 +13,10 @@ def cors_headers(response):
 
 @app.route("/generate", methods=["GET"])
 def send():
-	prompt = f"Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\nInstruction:\n{request.args.get("prompt")}\n\nResponse:"
-	output = llm(prompt)
+	prompt = f"""<|user|>
+{request.args.get("prompt")}<|endoftext|>
+<|assistant|>"""
+	output = llm(prompt, max_tokens=4096)
 	return output["choices"][0]["text"]
 
 app.run(port=8080)
