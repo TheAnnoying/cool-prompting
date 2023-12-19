@@ -42,14 +42,14 @@
 		</Button>
 	</div>
 </form>
-{#if $error}
+{#if $error.generate}
 	<div class="min-w-[24rem] w-1/3 min-h-[12rem] border border-destructive mt-10 text-destructive flex flex-col items-center justify-center rounded-xl px-10 py-5" transition:fly={{ y: -5 }}>
 		<p>An error occured</p>
 		<a href="https://github.com/TheAnnoying/cool-prompting/issues/new" target="_blank" class="underline">Report on Github</a>
 	</div>
 {/if}
 
-{#if $result && !$processing && !$error}
+{#if $result && !$processing && !$error.generate}
 	<div class="min-w-[24rem] w-1/3 min-h-[12rem] border mt-10 grid place-items-center rounded-xl px-10 py-5" transition:fly={{ y: -5 }}>{$result}</div>
 {:else if !$result && $processing && !$error}
 	<div class="min-w-[24rem] w-1/3 h-48 relative grid place-items-center mt-10 py-5">
